@@ -42,9 +42,9 @@ export default function Home() {
       } else {
         var amount = 0;
         for (var i = 0; i < balance; i++) {
-          const tokenId = await nftContract.tokenOfOwnerByIndex(address);
+          const tokenId = await nftContract.tokenOfOwnerByIndex(address, i);
           //verify variable in token.sol
-          const claimed = await tokenContract.tokenIds(tokenId);
+          const claimed = await tokenContract.tokenIdsClaimed(tokenId);
           if (!claimed) {
             amount++;
           }
@@ -123,7 +123,7 @@ export default function Home() {
   const getTotalTokensMinted = async () => {
     try {
       const provider = await getProviderOrSigner();
-      const tokenContract = await Contract(
+      const tokenContract = new Contract(
         TOKEN_CONTRACT_ADDRESS,
         TOKEN_CONTRACT_ABI,
         provider
